@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/jicho-landing-page",
+            "outputPath": "dist/JICHO-LANDING-PAGE/browser",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,6 +64,14 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:application-server",
+          "options": {
+            "outputPath": "dist/JICHO-LANDING-PAGE/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
