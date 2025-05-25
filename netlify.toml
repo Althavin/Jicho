@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "dist/JICHO-LANDING-PAGE/browser"  
-  functions = "dist/JICHO-LANDING-PAGE/server"  
+  publish = "dist/JICHO-LANDING-PAGE/browser/browser"
+  functions = "dist/JICHO-LANDING-PAGE/server"
 
 [[plugins]]
   package = "@netlify/angular-runtime"
