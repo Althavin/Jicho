@@ -1,45 +1,23 @@
-import {
-  AngularNodeAppEngine,
-  createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
-} from '@angular/ssr/node';
-import express from 'express';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { AngularAppEngine, createRequestHandler } from '@angular/ssr';
+import { getContext } from '@netlify/angular-runtime/context.mjs';
 
-const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-const browserDistFolder = resolve(serverDistFolder, '../browser');
+const angularAppEngine = new AngularAppEngine();
 
-const app = express();
-const angularApp = new AngularNodeAppEngine();
+export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
+  const context = getContext();
 
+  // Handle API routes if needed
+  // const pathname = new URL(request.url).pathname;
+  // if (pathname.startsWith('/api/')) {
+  //   return handleApiRequest(request);
+  // }
 
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-app.use('/**', (req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
-});
-
-
-if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
+  const result = await angularAppEngine.handle(request, context);
+  return result || new Response('Not found', { status: 404 });
 }
 
+// Export the handler for Netlify
+export default netlifyAppEngineHandler;
 
-export const reqHandler = createNodeRequestHandler(app);
-// Removed export default AppServerModule; because AppServerModule is not defined
+// For Angular CLI compatibility
+export const reqHandler = createRequestHandler(netlifyAppEngineHandler);

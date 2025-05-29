@@ -5,9 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:Jicho-landing-page": "node dist/jicho-landing-page/server/server.mjs"
+  "build:ssr": "ng build && ng build your-project-name --configuration=production",
+  "serve:ssr": "node dist/JICHO-LANDING-PAGE/server/main.js",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test",
+  "serve:ssr:Jicho-landing-page": "node dist/jicho-landing-page/server/server.mjs"
   },
   "private": true,
   "dependencies": {
